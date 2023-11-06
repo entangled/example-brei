@@ -1,0 +1,51 @@
+{
+  "task": [
+    {
+      "description": "plot a sine",
+      "creates": [],
+      "requires": [],
+      "runner": "gnuplot",
+      "stdout": "docs/fig/sine.svg",
+      "stdin": null,
+      "script": "#| description: plot a sine\n#| stdout: docs/fig/sine.svg\nset term svg background \"white\"\nset xrange [-pi:pi]\nset key top left\nplot sin(x)"
+    },
+    {
+      "description": "Generate data",
+      "creates": [
+        "data/${commit}/output.csv"
+      ],
+      "requires": [
+        "#output-prep"
+      ],
+      "runner": "python",
+      "stdout": null,
+      "stdin": null,
+      "script": "#| description: Generate data\n#| creates: data/${commit}/output.csv\n#| requires: #output-prep\n#| collect: data\nimport numpy as np\nimport pandas as pd\nfrom itertools import islice, accumulate\n\ndef white_noise():\n    while True:\n        yield np.random.normal()\n\nN = 1000\ny = np.fromiter(accumulate(white_noise()), dtype=float, count=N)\n\ndf = pd.DataFrame({\"y\": y})\ndf.to_csv(\"data/${commit}/output.csv\")"
+    },
+    {
+      "description": "plot brown noise",
+      "creates": [
+        "data/${commit}/brown-noise.svg"
+      ],
+      "requires": [
+        "data/${commit}/output.csv"
+      ],
+      "runner": "python",
+      "stdout": null,
+      "stdin": null,
+      "script": "#| description: plot brown noise\n#| creates: data/${commit}/brown-noise.svg\n#| requires: data/${commit}/output.csv\n#| collect: figures\nimport pandas as pd\nfrom matplotlib import pyplot as plt\n\ndata = pd.read_csv(\"data/${commit}/output.csv\", index_col=0)\nfig, ax = plt.subplots()\ndata.plot(ax=ax)\nfig.savefig(\"data/${commit}/brown-noise.svg\")"
+    },
+    {
+      "name": "data",
+      "requires": [
+        "data/${commit}/output.csv"
+      ]
+    },
+    {
+      "name": "figures",
+      "requires": [
+        "data/${commit}/brown-noise.svg"
+      ]
+    }
+  ]
+}

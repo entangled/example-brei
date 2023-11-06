@@ -1,0 +1,57 @@
+# ~/~ begin <<docs/index.md#entangled.toml>>[init]
+version = "2.0"
+watch_list = ["docs/*.md"]
+hooks = ["quarto_attributes", "brei"]
+
+# ~/~ begin <<docs/index.md#brei>>[init]
+[brei]
+include = ["docs/weave.toml", ".entangled/tasks.json"]
+# ~/~ end
+# ~/~ begin <<docs/index.md#brei>>[1]
+[brei.runner.gnuplot]
+command = "gnuplot"
+args = ["${script}"]
+# ~/~ end
+# ~/~ begin <<docs/index.md#brei>>[2]
+[[brei.call]]
+template = "copy"
+collect = "copy-figures1"
+[brei.call.args]
+srcdir = "docs/fig"
+tgtdir = "docs/site/fig"
+basename = ["sine.svg"]
+
+[[brei.call]]
+template = "pandoc"
+collect = "html"
+[brei.call.args]
+basename = ["index"]
+
+[[brei.task]]
+name = "weave"
+requires = ["#html", "#static", "#copy-figures1", "#copy-figures"]
+# ~/~ end
+# ~/~ begin <<docs/index.md#brei>>[3]
+[[brei.task]]
+description = "Obtain git commit id"
+stdout = "var(commit)"
+script = "git rev-parse --verify HEAD"
+
+[[brei.task]]
+description = "Create data output dir"
+name = "output-prep"
+script = """
+mkdir -p data/${commit}
+ln -sf ${commit} data/latest
+"""
+# ~/~ end
+# ~/~ begin <<docs/index.md#brei>>[4]
+[[brei.call]]
+template = "copy"
+collect = "copy-figures"
+[brei.call.args]
+srcdir = "data/${commit}"
+tgtdir = "docs/site/fig"
+basename = ["brown-noise.svg"]
+# ~/~ end
+# ~/~ end

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Entangled</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+      }
+    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+    div.sourceCode
+      { color: #cccccc; background-color: #303030; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ffcfaf; } /* Alert */
+    code span.an { color: #7f9f7f; font-weight: bold; } /* Annotation */
+    code span.at { } /* Attribute */
+    code span.bn { color: #dca3a3; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #f0dfaf; } /* ControlFlow */
+    code span.ch { color: #dca3a3; } /* Char */
+    code span.cn { color: #dca3a3; font-weight: bold; } /* Constant */
+    code span.co { color: #7f9f7f; } /* Comment */
+    code span.cv { color: #7f9f7f; font-weight: bold; } /* CommentVar */
+    code span.do { color: #7f9f7f; } /* Documentation */
+    code span.dt { color: #dfdfbf; } /* DataType */
+    code span.dv { color: #dcdccc; } /* DecVal */
+    code span.er { color: #c3bf9f; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #c0bed1; } /* Float */
+    code span.fu { color: #efef8f; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #7f9f7f; font-weight: bold; } /* Information */
+    code span.kw { color: #f0dfaf; } /* Keyword */
+    code span.op { color: #f0efd0; } /* Operator */
+    code span.ot { color: #efef8f; } /* Other */
+    code span.pp { color: #ffcfaf; font-weight: bold; } /* Preprocessor */
+    code span.sc { color: #dca3a3; } /* SpecialChar */
+    code span.ss { color: #cc9393; } /* SpecialString */
+    code span.st { color: #cc9393; } /* String */
+    code span.va { } /* Variable */
+    code span.vs { color: #cc9393; } /* VerbatimString */
+    code span.wa { color: #7f9f7f; font-weight: bold; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="dark.css" />
+<script>
+// ScrollSpy snippet from Bramus Van Damme (https://www.bram.us/)
+// MIT License.
+window.addEventListener('DOMContentLoaded', () => {
+	const observer = new IntersectionObserver(entries => {
+		entries.forEach(entry => {
+			const id = entry.target.getAttribute('id');
+      const nav = document.querySelector(`nav li a[href="#${id}"]`)
+      if (nav) {
+        if (entry.intersectionRatio > 0) {
+          nav.parentElement.classList.add('active');
+        } else {
+          nav.parentElement.classList.remove('active');
+			} }
+		});
+	});
+
+	// Track all sections that have an `id` applied
+	document.querySelectorAll('section[id]').forEach((section) => {
+		observer.observe(section);
+	});
+});
+</script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body class="dark-mode">
+<header id="title-block-header">
+<div class="row">
+<div class="spacing col-3 col-s6">&nbsp;</div>
+<div class="col-6 col-s-9">
+<h1 class="title">Entangled</h1>
+<p class="subtitle">Introduction to Brei</p>
+</div>
+<div class="spacing col-3 col-s3">&nbsp;</div>
+</div>
+</header>
+
+<div class="row">
+<div class="col-3 col-s-6" id="contents"><div class="sticky">
+<ul>
+<li><a href="index.html">Home</a></li>
+</ul>
+</div></div>
+<div class="col-6 col-s-9" id="main">
+<p>With Entangled and Brei you can automate your work from within
+Markdown. Similar to how you would integrate data analysis and
+visualisation in a Jupyter notebook, Entangled with Brei lets you put
+all your important code where you want it, and have the research output
+be directly linked to the presented content. However, Entangled uses a
+much more powerful literate programming idiom and Brei a much more
+comprehensive evaluation strategy. Meaning:</p>
+<ul>
+<li>Entangled: You write code where and how you want it presented.</li>
+<li>Brei: Results are computed only once, or when input data or source
+code actually changed.</li>
+</ul>
+<p>The design of both Entangled and Brei was done with some important
+core values in mind:</p>
+<ul>
+<li>readability: do I understand what the authors have done
+precisely?</li>
+<li>reproducibility: do I get the same results repeating the exact same
+instructions as the authors?</li>
+<li>replicability: do I get similar results by reinterpreting the
+authors instructions or using a different but equivalent data set?</li>
+<li>reusability: can I reuse what the authors did and apply it to my own
+work?</li>
+</ul>
+<div class="info">
+<p>If you are familiar with GNU Make, you could also choose to use Make
+instead of Brei. Here are some reasons why you might use Brei:</p>
+<ul>
+<li>Some members of your team run on Windows and don’t have GNU Make
+installed.</li>
+<li>Your workflows will be configured in TOML or JSON. Users won’t have
+to learn a new language.</li>
+<li>JSON support makes writing workflow generators easier.</li>
+<li>Your workflows become more portable.</li>
+<li>You have fewer dependencies (only Python &amp;), so your work
+becomes easier to reuse.</li>
+</ul>
+<p>That being said, Make is the more tried and proven alternative, and
+similar results can be achieved with it. Entangled has a
+<code>build</code> hook that utilizes Make much in the same manner as
+the <code>brei</code> hook does Brei.</p>
+<p>There are many other scientific workflow systems that function
+similar to Brei, all with a slightly different usability focus or user
+community.</p>
+</div>
+<section id="project-setup" class="level1">
+<h1>Project setup</h1>
+<p>To start a new project with the same features as shown here, you can
+use the <code>pandoc</code> project template. In addition to installing
+Entangled (<code>pip install entangled-cli</code>) you’ll need <a
+href="https://pandoc.org/installing.html">Pandoc with Lua
+support</a>.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this is a work in progress, the pandoc template is not yet available,</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># rather it will be extracted from the current repository (example-brei)</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">entangled</span> new pandoc my-awesome-project</span></code></pre></div>
+<p>The Entangled configuration looks as follows:</p>
+<div class="named-code-block">
+<div class="code-block-title">
+file:entangled.toml
+</div>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode toml"><code class="sourceCode toml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dt">version</span> <span class="op">=</span> <span class="st">&quot;2.0&quot;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="dt">watch_list</span> <span class="op">=</span> <span class="op">[</span><span class="st">&quot;docs/*.md&quot;</span><span class="op">]</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="dt">hooks</span> <span class="op">=</span> <span class="op">[</span><span class="st">&quot;quarto_attributes&quot;</span><span class="op">,</span> <span class="st">&quot;brei&quot;</span><span class="op">]</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="er">&lt;&lt;</span><span class="dt">brei</span><span class="er">&gt;&gt;</span></span></code></pre></div>
+</div>
+<p>We have enabled both the <code>quarto_attributes</code> and
+<code>brei</code> hooks. Quarto is a project that combines the powers of
+RMarkdown with Jupyter, and is relatively easy to use. In Quarto you can
+add attributes to code blocks by including them in comments with a
+vertical bar <code>|</code> added:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| description: prints a friendly message</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Hi!&quot;</span>)</span></code></pre></div>
+<p>With <code>quarto_attributes</code> enabled, Entangled will behave as
+if those attributes are part of the attributes inside the code block
+curly braces. It is important that the <code>quarto_attributes</code> go
+first, as the hooks will be evaluated in order of appearance in the
+config.</p>
+<p>The <code>brei</code> hook will extract tasks from the literate
+source, and put them in <code>.entangled/tasks.json</code>. The
+<code>pandoc</code> project template also ships with a workflow in
+<code>docs/weave.toml</code> that helps building HTML output using
+Pandoc. We can include those files:</p>
+<div class="named-code-block">
+<div class="code-block-title">
+«brei»
+</div>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode toml"><code class="sourceCode toml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[</span><span class="dt">brei</span><span class="kw">]</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="dt">include</span> <span class="op">=</span> <span class="op">[</span><span class="st">&quot;docs/weave.toml&quot;</span><span class="op">,</span> <span class="st">&quot;.entangled/tasks.json&quot;</span><span class="op">]</span></span></code></pre></div>
+</div>
+<p>In this example, we will be doing some plotting with Gnuplot, mainly
+to show how easy it is to setup.</p>
+<div class="named-code-block">
+<div class="code-block-title">
+«brei»
+</div>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode toml"><code class="sourceCode toml"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[</span><span class="dt">brei</span><span class="kw">.</span><span class="dt">runner</span><span class="kw">.</span><span class="dt">gnuplot</span><span class="kw">]</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="dt">command</span> <span class="op">=</span> <span class="st">&quot;gnuplot&quot;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="dt">args</span> <span class="op">=</span> <span class="op">[</span><span class="st">&quot;${script}&quot;</span><span class="op">]</span></span></code></pre></div>
+</div>
+<p>We will put all figures in <code>docs/fig</code>. Some people will
+browse the documentation on Github, putting figures there makes sure
+that relative paths work for both the Markdown and the rendered HTML.
+When we build the website, we need to copy those figures to
+<code>docs/site/fig</code>. Currently no glob patterns are supported
+yet, so we need to list all figures in there.</p>
+<div class="named-code-block">
+<div class="code-block-title">
+«brei»
+</div>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode toml"><code class="sourceCode toml"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[[</span><span class="dt">brei</span><span class="kw">.</span><span class="dt">call</span><span class="kw">]]</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="dt">template</span> <span class="op">=</span> <span class="st">&quot;copy&quot;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="dt">collect</span> <span class="op">=</span> <span class="st">&quot;copy-figures1&quot;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="kw">[</span><span class="dt">brei</span><span class="kw">.</span><span class="dt">call</span><span class="kw">.</span><span class="dt">args</span><span class="kw">]</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="dt">srcdir</span> <span class="op">=</span> <span class="st">&quot;docs/fig&quot;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="dt">tgtdir</span> <span class="op">=</span> <span class="st">&quot;docs/site/fig&quot;</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="dt">basename</span> <span class="op">=</span> <span class="op">[</span><span class="st">&quot;sine.svg&quot;</span><span class="op">]</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="kw">[[</span><span class="dt">brei</span><span class="kw">.</span><span class="dt">call</span><span class="kw">]]</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="dt">template</span> <span class="op">=</span> <span class="st">&quot;pandoc&quot;</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="dt">collect</span> <span class="op">=</span> <span class="st">&quot;html&quot;</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="kw">[</span><span class="dt">brei</span><span class="kw">.</span><span class="dt">call</span><span class="kw">.</span><span class="dt">args</span><span class="kw">]</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="dt">basename</span> <span class="op">=</span> <span class="op">[</span><span class="st">&quot;index&quot;</span><span class="op">]</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="kw">[[</span><span class="dt">brei</span><span class="kw">.</span><span class="dt">task</span><span class="kw">]]</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="dt">name</span> <span class="op">=</span> <span class="st">&quot;weave&quot;</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="dt">requires</span> <span class="op">=</span> <span class="op">[</span><span class="st">&quot;#html&quot;</span><span class="op">,</span> <span class="st">&quot;#static&quot;</span><span class="op">,</span> <span class="st">&quot;#copy-figures1&quot;</span><span class="op">,</span> <span class="st">&quot;#copy-figures&quot;</span><span class="op">]</span></span></code></pre></div>
+</div>
+</section>
+<section id="plotting" class="level1">
+<h1>Plotting</h1>
+<p>For our first example, we create a simple plot using Gnuplot. The
+following creates a plot of a sinus function. The <code>stdout</code>
+output of Gnuplot is passed to the file <code>docs/fig/sine.svg</code>.
+Then we include that file in the Markdown with normal image syntax.</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode gnuplot task"><code class="sourceCode gnuplot"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| description: plot a sine</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| stdout: docs/fig/sine.svg</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">set</span> <span class="cn">term</span> svg background <span class="bn">&quot;white&quot;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="kw">set</span> <span class="cn">xrange</span> <span class="dt">[</span><span class="op">-</span><span class="va">pi</span><span class="dt">:</span><span class="va">pi</span><span class="dt">]</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="kw">set</span> <span class="cn">key</span> <span class="dt">top</span> <span class="dt">left</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="kw">plot</span> <span class="fu">sin</span>(x)</span></code></pre></div>
+<p><img src="fig/sine.svg" /></p>
+</section>
+<section id="generating-data" class="level1">
+<h1>Generating Data</h1>
+<p>The above example is kind of trivial. Usually, when you do serious
+work, you run a computation that might take a while, then move on to
+visualize its results, and so on. If you change something in the middle
+of your analysis, you don’t want to rerun the entire computation. Also,
+suppose you want to know which version of your software created a
+certain result. We can involve Git here. We create two tasks, one that
+obtains the current git commit id, and the other creates the directory
+where output will go.</p>
+<div class="named-code-block">
+<div class="code-block-title">
+«brei»
+</div>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode toml"><code class="sourceCode toml"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[[</span><span class="dt">brei</span><span class="kw">.</span><span class="dt">task</span><span class="kw">]]</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="dt">description</span> <span class="op">=</span> <span class="st">&quot;Obtain git commit id&quot;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="dt">stdout</span> <span class="op">=</span> <span class="st">&quot;var(commit)&quot;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="dt">script</span> <span class="op">=</span> <span class="st">&quot;git rev-parse --verify HEAD&quot;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="kw">[[</span><span class="dt">brei</span><span class="kw">.</span><span class="dt">task</span><span class="kw">]]</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="dt">description</span> <span class="op">=</span> <span class="st">&quot;Create data output dir&quot;</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="dt">name</span> <span class="op">=</span> <span class="st">&quot;output-prep&quot;</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="dt">script</span> <span class="op">=</span> <span class="st">&quot;&quot;&quot;</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="st">mkdir -p data/${commit}</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="st">ln -sf ${commit} data/latest</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;&quot;&quot;</span></span></code></pre></div>
+</div>
+<p>Now, to test this, we write a script that writes to the folder of the
+current git commit.</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode python task"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| description: Generate data</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| creates: data/${commit}/output.csv</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">#| requires: #output-prep</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">#| collect: data</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itertools <span class="im">import</span> islice, accumulate</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> white_noise():</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">yield</span> np.random.normal()</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">1000</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.fromiter(accumulate(white_noise()), dtype<span class="op">=</span><span class="bu">float</span>, count<span class="op">=</span>N)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame({<span class="st">&quot;y&quot;</span>: y})</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>df.to_csv(<span class="st">&quot;data/$</span><span class="sc">{commit}</span><span class="st">/output.csv&quot;</span>)</span></code></pre></div>
+<p>In a next script we can read the generated data and produce a
+figure.</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode python task"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| description: plot brown noise</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| creates: data/${commit}/brown-noise.svg</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">#| requires: data/${commit}/output.csv</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">#| collect: figures</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">&quot;data/$</span><span class="sc">{commit}</span><span class="st">/output.csv&quot;</span>, index_col<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>data.plot(ax<span class="op">=</span>ax)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>fig.savefig(<span class="st">&quot;data/$</span><span class="sc">{commit}</span><span class="st">/brown-noise.svg&quot;</span>)</span></code></pre></div>
+<div class="named-code-block">
+<div class="code-block-title">
+«brei»
+</div>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode toml"><code class="sourceCode toml"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[[</span><span class="dt">brei</span><span class="kw">.</span><span class="dt">call</span><span class="kw">]]</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="dt">template</span> <span class="op">=</span> <span class="st">&quot;copy&quot;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="dt">collect</span> <span class="op">=</span> <span class="st">&quot;copy-figures&quot;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="kw">[</span><span class="dt">brei</span><span class="kw">.</span><span class="dt">call</span><span class="kw">.</span><span class="dt">args</span><span class="kw">]</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="dt">srcdir</span> <span class="op">=</span> <span class="st">&quot;data/${commit}&quot;</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="dt">tgtdir</span> <span class="op">=</span> <span class="st">&quot;docs/site/fig&quot;</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="dt">basename</span> <span class="op">=</span> <span class="op">[</span><span class="st">&quot;brown-noise.svg&quot;</span><span class="op">]</span></span></code></pre></div>
+</div>
+<p><img src="fig/brown-noise.svg" /></p>
+</section>
+</div>
+
+<div id="menu" class="col-3 col-s-3 menu"><nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#project-setup" id="toc-project-setup">Project
+setup</a></li>
+<li><a href="#plotting" id="toc-plotting">Plotting</a></li>
+<li><a href="#generating-data" id="toc-generating-data">Generating
+Data</a></li>
+</ul>
+</nav></div>
+</div>
+
+<div class="footer">
+</div>
+
+</body>
+</html>

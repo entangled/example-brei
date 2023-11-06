@@ -1,0 +1,32 @@
+{
+  "version": "2.0.0",
+  "files": [
+    {
+      "path": "entangled.toml",
+      "deps": [
+        "docs/index.md"
+      ],
+      "modified": "2023-11-06T19:11:30.420917",
+      "hexdigest": "baf4f9b3dc8416197ca2135be047f27f95562ed3642dacfd2ba4491eb634e750",
+      "size": 1255
+    },
+    {
+      "path": "docs/contents.md",
+      "deps": null,
+      "modified": "2023-11-05T20:01:51.266464",
+      "hexdigest": "d684d1c3acdfe893279ea78c56c684d0ccc56346f23f43106cec587fee2065ca",
+      "size": 22
+    },
+    {
+      "path": "docs/index.md",
+      "deps": null,
+      "modified": "2023-11-06T19:16:43.185102",
+      "hexdigest": "2ecff8a9070fed67511b60b15da922637c84d483eff11928eb2987dcaef59371",
+      "size": 6854
+    }
+  ],
+  "source": [],
+  "target": [
+    "entangled.toml"
+  ]
+}
