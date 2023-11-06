@@ -15,7 +15,7 @@ args = ["${script}"]
 # ~/~ begin <<docs/index.md#brei>>[2]
 [[brei.call]]
 template = "copy"
-collect = "copy-figures1"
+collect = "copy-figures"
 [brei.call.args]
 srcdir = "docs/fig"
 tgtdir = "docs/site/fig"
@@ -29,7 +29,7 @@ basename = ["index"]
 
 [[brei.task]]
 name = "weave"
-requires = ["#html", "#static", "#copy-figures1", "#copy-figures"]
+requires = ["#html", "#static", "#copy-figures", "#data-products"]
 # ~/~ end
 # ~/~ begin <<docs/index.md#brei>>[3]
 [[brei.task]]
@@ -44,14 +44,18 @@ script = """
 mkdir -p data/${commit}
 ln -sf ${commit} data/latest
 """
+
+[brei.template.copy-from-data]
+description = "copying `${pathname}`"
+requires = ["data/${commit}/${pathname}"]
+creates = ["docs/site/${pathname}"]
+script = "cp data/${commit}/${pathname} docs/site/${pathname}"
 # ~/~ end
 # ~/~ begin <<docs/index.md#brei>>[4]
 [[brei.call]]
-template = "copy"
-collect = "copy-figures"
+template = "copy-from-data"
+collect = "data-products"
 [brei.call.args]
-srcdir = "data/${commit}"
-tgtdir = "docs/site/fig"
-basename = ["brown-noise.svg"]
+pathname = ["fig/brown-noise.svg"]
 # ~/~ end
 # ~/~ end

@@ -6,9 +6,9 @@
       "deps": [
         "docs/index.md"
       ],
-      "modified": "2023-11-06T19:11:30.420917",
-      "hexdigest": "baf4f9b3dc8416197ca2135be047f27f95562ed3642dacfd2ba4491eb634e750",
-      "size": 1255
+      "modified": "2023-11-06T23:09:35.687029",
+      "hexdigest": "51f4b4fe352e82ef2bd372ac4d05154b92b5946da5136ba411fb3f2c9d28490a",
+      "size": 1429
     },
     {
       "path": "docs/contents.md",
@@ -20,9 +20,9 @@
     {
       "path": "docs/index.md",
       "deps": null,
-      "modified": "2023-11-06T19:16:43.185102",
-      "hexdigest": "2ecff8a9070fed67511b60b15da922637c84d483eff11928eb2987dcaef59371",
-      "size": 6854
+      "modified": "2023-11-06T23:11:58.947034",
+      "hexdigest": "b14b5419e9144c157f61ff0cc661be7d4bded8de079fee0f4e5b37706eec2942",
+      "size": 7170
     }
   ],
   "source": [],

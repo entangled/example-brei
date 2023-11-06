@@ -197,6 +197,8 @@ class="sourceCode toml"><code class="sourceCode toml"><span id="cb2-1"><a href="
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="er">&lt;&lt;</span><span class="dt">brei</span><span class="er">&gt;&gt;</span></span></code></pre></div>
 </div>
+<section id="quarto-attributes" class="level2">
+<h2>Quarto attributes</h2>
 <p>We have enabled both the <code>quarto_attributes</code> and
 <code>brei</code> hooks. Quarto is a project that combines the powers of
 RMarkdown with Jupyter, and is relatively easy to use. In Quarto you can
@@ -210,6 +212,9 @@ if those attributes are part of the attributes inside the code block
 curly braces. It is important that the <code>quarto_attributes</code> go
 first, as the hooks will be evaluated in order of appearance in the
 config.</p>
+</section>
+<section id="brei" class="level2">
+<h2>Brei</h2>
 <p>The <code>brei</code> hook will extract tasks from the literate
 source, and put them in <code>.entangled/tasks.json</code>. The
 <code>pandoc</code> project template also ships with a workflow in
@@ -247,7 +252,7 @@ yet, so we need to list all figures in there.</p>
 <div class="sourceCode" id="cb6"><pre
 class="sourceCode toml"><code class="sourceCode toml"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[[</span><span class="dt">brei</span><span class="kw">.</span><span class="dt">call</span><span class="kw">]]</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="dt">template</span> <span class="op">=</span> <span class="st">&quot;copy&quot;</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="dt">collect</span> <span class="op">=</span> <span class="st">&quot;copy-figures1&quot;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="dt">collect</span> <span class="op">=</span> <span class="st">&quot;copy-figures&quot;</span></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="kw">[</span><span class="dt">brei</span><span class="kw">.</span><span class="dt">call</span><span class="kw">.</span><span class="dt">args</span><span class="kw">]</span></span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="dt">srcdir</span> <span class="op">=</span> <span class="st">&quot;docs/fig&quot;</span></span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="dt">tgtdir</span> <span class="op">=</span> <span class="st">&quot;docs/site/fig&quot;</span></span>
@@ -261,11 +266,12 @@ class="sourceCode toml"><code class="sourceCode toml"><span id="cb6-1"><a href="
 <span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="kw">[[</span><span class="dt">brei</span><span class="kw">.</span><span class="dt">task</span><span class="kw">]]</span></span>
 <span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="dt">name</span> <span class="op">=</span> <span class="st">&quot;weave&quot;</span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="dt">requires</span> <span class="op">=</span> <span class="op">[</span><span class="st">&quot;#html&quot;</span><span class="op">,</span> <span class="st">&quot;#static&quot;</span><span class="op">,</span> <span class="st">&quot;#copy-figures1&quot;</span><span class="op">,</span> <span class="st">&quot;#copy-figures&quot;</span><span class="op">]</span></span></code></pre></div>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="dt">requires</span> <span class="op">=</span> <span class="op">[</span><span class="st">&quot;#html&quot;</span><span class="op">,</span> <span class="st">&quot;#static&quot;</span><span class="op">,</span> <span class="st">&quot;#copy-figures&quot;</span><span class="op">,</span> <span class="st">&quot;#data-products&quot;</span><span class="op">]</span></span></code></pre></div>
 </div>
 </section>
-<section id="plotting" class="level1">
-<h1>Plotting</h1>
+</section>
+<section id="simple-plotting" class="level1">
+<h1>Simple Plotting</h1>
 <p>For our first example, we create a simple plot using Gnuplot. The
 following creates a plot of a sinus function. The <code>stdout</code>
 output of Gnuplot is passed to the file <code>docs/fig/sine.svg</code>.
@@ -279,8 +285,8 @@ class="sourceCode gnuplot task"><code class="sourceCode gnuplot"><span id="cb7-1
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="kw">plot</span> <span class="fu">sin</span>(x)</span></code></pre></div>
 <p><img src="fig/sine.svg" /></p>
 </section>
-<section id="generating-data" class="level1">
-<h1>Generating Data</h1>
+<section id="full-workflow" class="level1">
+<h1>Full Workflow</h1>
 <p>The above example is kind of trivial. Usually, when you do serious
 work, you run a computation that might take a while, then move on to
 visualize its results, and so on. If you change something in the middle
@@ -305,7 +311,13 @@ class="sourceCode toml"><code class="sourceCode toml"><span id="cb8-1"><a href="
 <span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="dt">script</span> <span class="op">=</span> <span class="st">&quot;&quot;&quot;</span></span>
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="st">mkdir -p data/${commit}</span></span>
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="st">ln -sf ${commit} data/latest</span></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;&quot;&quot;</span></span></code></pre></div>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;&quot;&quot;</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="kw">[</span><span class="dt">brei</span><span class="kw">.</span><span class="dt">template</span><span class="kw">.</span><span class="dt">copy-from-data</span><span class="kw">]</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="dt">description</span> <span class="op">=</span> <span class="st">&quot;copying `${pathname}`&quot;</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="dt">requires</span> <span class="op">=</span> <span class="op">[</span><span class="st">&quot;data/${commit}/${pathname}&quot;</span><span class="op">]</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="dt">creates</span> <span class="op">=</span> <span class="op">[</span><span class="st">&quot;docs/site/${pathname}&quot;</span><span class="op">]</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="dt">script</span> <span class="op">=</span> <span class="st">&quot;cp data/${commit}/${pathname} docs/site/${pathname}&quot;</span></span></code></pre></div>
 </div>
 <p>Now, to test this, we write a script that writes to the folder of the
 current git commit.</p>
@@ -331,28 +343,30 @@ class="sourceCode python task"><code class="sourceCode python"><span id="cb9-1">
 figure.</p>
 <div class="sourceCode" id="cb10"><pre
 class="sourceCode python task"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| description: plot brown noise</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| creates: data/${commit}/brown-noise.svg</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| creates: data/${commit}/fig/brown-noise.svg</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">#| requires: data/${commit}/output.csv</span></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">#| collect: figures</span></span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">&quot;data/$</span><span class="sc">{commit}</span><span class="st">/output.csv&quot;</span>, index_col<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>data.plot(ax<span class="op">=</span>ax)</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>fig.savefig(<span class="st">&quot;data/$</span><span class="sc">{commit}</span><span class="st">/brown-noise.svg&quot;</span>)</span></code></pre></div>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>outfile <span class="op">=</span> Path(<span class="st">&quot;data/$</span><span class="sc">{commit}</span><span class="st">/fig/brown-noise.svg&quot;</span>)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>outfile.parent.mkdir(parents<span class="op">=</span><span class="va">True</span>, exist_ok<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">&quot;data/$</span><span class="sc">{commit}</span><span class="st">/output.csv&quot;</span>, index_col<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>data.plot(ax<span class="op">=</span>ax)</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>fig.savefig(outfile)</span></code></pre></div>
 <div class="named-code-block">
 <div class="code-block-title">
 «brei»
 </div>
 <div class="sourceCode" id="cb11"><pre
 class="sourceCode toml"><code class="sourceCode toml"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[[</span><span class="dt">brei</span><span class="kw">.</span><span class="dt">call</span><span class="kw">]]</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="dt">template</span> <span class="op">=</span> <span class="st">&quot;copy&quot;</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="dt">collect</span> <span class="op">=</span> <span class="st">&quot;copy-figures&quot;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="dt">template</span> <span class="op">=</span> <span class="st">&quot;copy-from-data&quot;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="dt">collect</span> <span class="op">=</span> <span class="st">&quot;data-products&quot;</span></span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="kw">[</span><span class="dt">brei</span><span class="kw">.</span><span class="dt">call</span><span class="kw">.</span><span class="dt">args</span><span class="kw">]</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="dt">srcdir</span> <span class="op">=</span> <span class="st">&quot;data/${commit}&quot;</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="dt">tgtdir</span> <span class="op">=</span> <span class="st">&quot;docs/site/fig&quot;</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="dt">basename</span> <span class="op">=</span> <span class="op">[</span><span class="st">&quot;brown-noise.svg&quot;</span><span class="op">]</span></span></code></pre></div>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="dt">pathname</span> <span class="op">=</span> <span class="op">[</span><span class="st">&quot;fig/brown-noise.svg&quot;</span><span class="op">]</span></span></code></pre></div>
 </div>
 <p><img src="fig/brown-noise.svg" /></p>
 </section>
@@ -360,11 +374,16 @@ class="sourceCode toml"><code class="sourceCode toml"><span id="cb11-1"><a href=
 
 <div id="menu" class="col-3 col-s-3 menu"><nav id="TOC" role="doc-toc">
 <ul>
-<li><a href="#project-setup" id="toc-project-setup">Project
-setup</a></li>
-<li><a href="#plotting" id="toc-plotting">Plotting</a></li>
-<li><a href="#generating-data" id="toc-generating-data">Generating
-Data</a></li>
+<li><a href="#project-setup" id="toc-project-setup">Project setup</a>
+<ul>
+<li><a href="#quarto-attributes" id="toc-quarto-attributes">Quarto
+attributes</a></li>
+<li><a href="#brei" id="toc-brei">Brei</a></li>
+</ul></li>
+<li><a href="#simple-plotting" id="toc-simple-plotting">Simple
+Plotting</a></li>
+<li><a href="#full-workflow" id="toc-full-workflow">Full
+Workflow</a></li>
 </ul>
 </nav></div>
 </div>
