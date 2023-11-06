@@ -12,3 +12,6 @@ Requirements:
 ```
 entangled brei weave
 ```
+
+## License
+Copyright 2023 Netherlands eScience Center, licensed under the Apache license, version 2, see LICENSE.
