@@ -1,5 +1,7 @@
 # Tutorials for using Entangled and Brei
 
+View this tutorial at [entangled.github.io/example-brei](https://entangled.github.io/example-brei).
+
 Requirements:
 
 - Python &ge;3.11
