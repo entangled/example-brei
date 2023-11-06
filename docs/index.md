@@ -54,7 +54,9 @@ print("Hi!")
 With `quarto_attributes` enabled, Entangled will behave as if those attributes are part of the attributes inside the code block curly braces. It is important that the `quarto_attributes` go first, as the hooks will be evaluated in order of appearance in the config.
 
 ## Brei
-The `brei` hook will extract tasks from the literate source, and put them in `.entangled/tasks.json`. The `pandoc` project template also ships with a workflow in `docs/weave.toml` that helps building HTML output using Pandoc. We can include those files:
+In the following examples we use Brei to automate scientific computations. Here we also present the Brei configuration in `entangled.toml` that makes these demos work. In your own work you should keep these TOML files separate, so you can focus on the actual science. Also, make sure to check out the [Brei documentation](https://entangled.github.io/brei).
+
+The `brei` hook extracts tasks from the literate source, and puts them in `.entangled/tasks.json`. The `pandoc` project template also ships with a workflow in `docs/weave.toml` that helps building HTML output using Pandoc. We define our main workflow commands in `entangled.toml` in the `brei` section. We can include the other files:
 
 ``` {.toml #brei}
 [brei]
@@ -196,3 +198,7 @@ pathname = ["fig/brown-noise.svg"]
 ```
 
 ![](fig/brown-noise.svg)
+
+# Interactive plots with PlotLy
+NYI
+

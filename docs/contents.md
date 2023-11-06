@@ -1,2 +1,3 @@
-- [Home](index.html)
+- [Entangled](https://entangled.github.io/)
+- [Example Gallery](https://entangled.github.io/examples)
 

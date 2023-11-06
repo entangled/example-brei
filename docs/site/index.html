@@ -125,7 +125,9 @@ window.addEventListener('DOMContentLoaded', () => {
 <div class="row">
 <div class="col-3 col-s-6" id="contents"><div class="sticky">
 <ul>
-<li><a href="index.html">Home</a></li>
+<li><a href="https://entangled.github.io/">Entangled</a></li>
+<li><a href="https://entangled.github.io/examples">Example
+Gallery</a></li>
 </ul>
 </div></div>
 <div class="col-6 col-s-9" id="main">
@@ -215,11 +217,19 @@ config.</p>
 </section>
 <section id="brei" class="level2">
 <h2>Brei</h2>
-<p>The <code>brei</code> hook will extract tasks from the literate
-source, and put them in <code>.entangled/tasks.json</code>. The
+<p>In the following examples we use Brei to automate scientific
+computations. Here we also present the Brei configuration in
+<code>entangled.toml</code> that makes these demos work. In your own
+work you should keep these TOML files separate, so you can focus on the
+actual science. Also, make sure to check out the <a
+href="https://entangled.github.io/brei">Brei documentation</a>.</p>
+<p>The <code>brei</code> hook extracts tasks from the literate source,
+and puts them in <code>.entangled/tasks.json</code>. The
 <code>pandoc</code> project template also ships with a workflow in
 <code>docs/weave.toml</code> that helps building HTML output using
-Pandoc. We can include those files:</p>
+Pandoc. We define our main workflow commands in
+<code>entangled.toml</code> in the <code>brei</code> section. We can
+include the other files:</p>
 <div class="named-code-block">
 <div class="code-block-title">
 «brei»
@@ -305,17 +315,21 @@ class="sourceCode bash eval"><code class="sourceCode bash"><span id="cb8-1"><a h
 <div class="doctestResult">
 <div class="sourceCode" id="cb9"><pre
 class="sourceCode txt"><code class="sourceCode default"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>data</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>├── 932f07dfdf4ab963a6406320bca1714aebd003f0</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>├── 51fbd6f9082619b37b3bbfce0c2e2b34a63df7a5</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>│   ├── fig</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>│   │   └── brown-noise.svg</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>│   └── output.csv</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>├── b0ed5d96febb2ca5a71867129d683d6cf5fdb649</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>├── 932f07dfdf4ab963a6406320bca1714aebd003f0</span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>│   ├── fig</span>
 <span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>│   │   └── brown-noise.svg</span>
 <span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>│   └── output.csv</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>└── latest -&gt; 932f07dfdf4ab963a6406320bca1714aebd003f0</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>6 directories, 4 files</span></code></pre></div>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>├── b0ed5d96febb2ca5a71867129d683d6cf5fdb649</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>│   ├── fig</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>│   │   └── brown-noise.svg</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>│   └── output.csv</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>└── latest -&gt; 51fbd6f9082619b37b3bbfce0c2e2b34a63df7a5</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>8 directories, 6 files</span></code></pre></div>
 </div>
 </div>
 <p>We create two tasks, one that obtains the current git commit id, and
@@ -407,6 +421,10 @@ class="sourceCode toml"><code class="sourceCode toml"><span id="cb14-1"><a href=
 <p><img src="fig/brown-noise.svg" /></p>
 </section>
 </section>
+<section id="interactive-plots-with-plotly" class="level1">
+<h1>Interactive plots with PlotLy</h1>
+<p>NYI</p>
+</section>
 </div>
 
 <div id="menu" class="col-3 col-s-3 menu"><nav id="TOC" role="doc-toc">
@@ -426,6 +444,9 @@ id="toc-commit-specific-output">Commit specific output</a></li>
 <li><a href="#make-some-noise" id="toc-make-some-noise">Make some
 noise</a></li>
 </ul></li>
+<li><a href="#interactive-plots-with-plotly"
+id="toc-interactive-plots-with-plotly">Interactive plots with
+PlotLy</a></li>
 </ul>
 </nav></div>
 </div>
