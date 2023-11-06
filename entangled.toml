@@ -42,16 +42,17 @@ description = "Create data output dir"
 name = "output-prep"
 script = """
 mkdir -p data/${commit}
-ln -sf ${commit} data/latest
+ln -snf ${commit} data/latest
 """
-
+# ~/~ end
+# ~/~ begin <<docs/index.md#brei>>[4]
 [brei.template.copy-from-data]
 description = "copying `${pathname}`"
 requires = ["data/${commit}/${pathname}"]
 creates = ["docs/site/${pathname}"]
 script = "cp data/${commit}/${pathname} docs/site/${pathname}"
 # ~/~ end
-# ~/~ begin <<docs/index.md#brei>>[4]
+# ~/~ begin <<docs/index.md#brei>>[5]
 [[brei.call]]
 template = "copy-from-data"
 collect = "data-products"

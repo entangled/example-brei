@@ -110,6 +110,11 @@ The above example is kind of trivial. Usually, when you do serious work, you run
 
 ## Commit specific output
 In this bit we configure Brei to put output files in a subdirectory according to the commit id.
+
+``` {.bash .eval}
+tree data
+```
+
 We create two tasks, one that obtains the current git commit id, and the other creates the directory where output will go.
 
 ``` {.toml #brei}
@@ -137,6 +142,7 @@ creates = ["docs/site/${pathname}"]
 script = "cp data/${commit}/${pathname} docs/site/${pathname}"
 ```
 
+## Make some noise
 Now, to test this, we write a script that writes to the folder of the current git commit.
 
 ``` {.python .task}

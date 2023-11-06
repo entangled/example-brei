@@ -292,83 +292,120 @@ work, you run a computation that might take a while, then move on to
 visualize its results, and so on. If you change something in the middle
 of your analysis, you don’t want to rerun the entire computation. Also,
 suppose you want to know which version of your software created a
-certain result. We can involve Git here. We create two tasks, one that
-obtains the current git commit id, and the other creates the directory
-where output will go.</p>
+certain result. We can involve Git here.</p>
+<section id="commit-specific-output" class="level2">
+<h2>Commit specific output</h2>
+<p>In this bit we configure Brei to put output files in a subdirectory
+according to the commit id.</p>
+<div class="doctest" data-status="SUCCESS">
+<div class="doctestInput">
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode bash eval"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">tree</span> data</span></code></pre></div>
+</div>
+<div class="doctestResult">
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode txt"><code class="sourceCode default"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>data</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>├── 932f07dfdf4ab963a6406320bca1714aebd003f0</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>│   ├── fig</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>│   │   └── brown-noise.svg</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>│   └── output.csv</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>├── b0ed5d96febb2ca5a71867129d683d6cf5fdb649</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>│   ├── fig</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>│   │   └── brown-noise.svg</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>│   └── output.csv</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>└── latest -&gt; 932f07dfdf4ab963a6406320bca1714aebd003f0</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>6 directories, 4 files</span></code></pre></div>
+</div>
+</div>
+<p>We create two tasks, one that obtains the current git commit id, and
+the other creates the directory where output will go.</p>
 <div class="named-code-block">
 <div class="code-block-title">
 «brei»
 </div>
-<div class="sourceCode" id="cb8"><pre
-class="sourceCode toml"><code class="sourceCode toml"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[[</span><span class="dt">brei</span><span class="kw">.</span><span class="dt">task</span><span class="kw">]]</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="dt">description</span> <span class="op">=</span> <span class="st">&quot;Obtain git commit id&quot;</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="dt">stdout</span> <span class="op">=</span> <span class="st">&quot;var(commit)&quot;</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="dt">script</span> <span class="op">=</span> <span class="st">&quot;git rev-parse --verify HEAD&quot;</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="kw">[[</span><span class="dt">brei</span><span class="kw">.</span><span class="dt">task</span><span class="kw">]]</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="dt">description</span> <span class="op">=</span> <span class="st">&quot;Create data output dir&quot;</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="dt">name</span> <span class="op">=</span> <span class="st">&quot;output-prep&quot;</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="dt">script</span> <span class="op">=</span> <span class="st">&quot;&quot;&quot;</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="st">mkdir -p data/${commit}</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="st">ln -sf ${commit} data/latest</span></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;&quot;&quot;</span></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="kw">[</span><span class="dt">brei</span><span class="kw">.</span><span class="dt">template</span><span class="kw">.</span><span class="dt">copy-from-data</span><span class="kw">]</span></span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="dt">description</span> <span class="op">=</span> <span class="st">&quot;copying `${pathname}`&quot;</span></span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="dt">requires</span> <span class="op">=</span> <span class="op">[</span><span class="st">&quot;data/${commit}/${pathname}&quot;</span><span class="op">]</span></span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="dt">creates</span> <span class="op">=</span> <span class="op">[</span><span class="st">&quot;docs/site/${pathname}&quot;</span><span class="op">]</span></span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="dt">script</span> <span class="op">=</span> <span class="st">&quot;cp data/${commit}/${pathname} docs/site/${pathname}&quot;</span></span></code></pre></div>
-</div>
-<p>Now, to test this, we write a script that writes to the folder of the
-current git commit.</p>
-<div class="sourceCode" id="cb9"><pre
-class="sourceCode python task"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| description: Generate data</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| creates: data/${commit}/output.csv</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">#| requires: #output-prep</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">#| collect: data</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itertools <span class="im">import</span> islice, accumulate</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> white_noise():</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="va">True</span>:</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">yield</span> np.random.normal()</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">1000</span></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.fromiter(accumulate(white_noise()), dtype<span class="op">=</span><span class="bu">float</span>, count<span class="op">=</span>N)</span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame({<span class="st">&quot;y&quot;</span>: y})</span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>df.to_csv(<span class="st">&quot;data/$</span><span class="sc">{commit}</span><span class="st">/output.csv&quot;</span>)</span></code></pre></div>
-<p>In a next script we can read the generated data and produce a
-figure.</p>
 <div class="sourceCode" id="cb10"><pre
-class="sourceCode python task"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| description: plot brown noise</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| creates: data/${commit}/fig/brown-noise.svg</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">#| requires: data/${commit}/output.csv</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">#| collect: figures</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>outfile <span class="op">=</span> Path(<span class="st">&quot;data/$</span><span class="sc">{commit}</span><span class="st">/fig/brown-noise.svg&quot;</span>)</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>outfile.parent.mkdir(parents<span class="op">=</span><span class="va">True</span>, exist_ok<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">&quot;data/$</span><span class="sc">{commit}</span><span class="st">/output.csv&quot;</span>, index_col<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>data.plot(ax<span class="op">=</span>ax)</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>fig.savefig(outfile)</span></code></pre></div>
+class="sourceCode toml"><code class="sourceCode toml"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[[</span><span class="dt">brei</span><span class="kw">.</span><span class="dt">task</span><span class="kw">]]</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="dt">description</span> <span class="op">=</span> <span class="st">&quot;Obtain git commit id&quot;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="dt">stdout</span> <span class="op">=</span> <span class="st">&quot;var(commit)&quot;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="dt">script</span> <span class="op">=</span> <span class="st">&quot;git rev-parse --verify HEAD&quot;</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="kw">[[</span><span class="dt">brei</span><span class="kw">.</span><span class="dt">task</span><span class="kw">]]</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="dt">description</span> <span class="op">=</span> <span class="st">&quot;Create data output dir&quot;</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="dt">name</span> <span class="op">=</span> <span class="st">&quot;output-prep&quot;</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="dt">script</span> <span class="op">=</span> <span class="st">&quot;&quot;&quot;</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="st">mkdir -p data/${commit}</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="st">ln -snf ${commit} data/latest</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;&quot;&quot;</span></span></code></pre></div>
+</div>
+<p>We’ll have a specialized copy template for copying data products from
+<code>data/${commit}</code> to <code>docs/site</code>.</p>
 <div class="named-code-block">
 <div class="code-block-title">
 «brei»
 </div>
 <div class="sourceCode" id="cb11"><pre
-class="sourceCode toml"><code class="sourceCode toml"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[[</span><span class="dt">brei</span><span class="kw">.</span><span class="dt">call</span><span class="kw">]]</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="dt">template</span> <span class="op">=</span> <span class="st">&quot;copy-from-data&quot;</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="dt">collect</span> <span class="op">=</span> <span class="st">&quot;data-products&quot;</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="kw">[</span><span class="dt">brei</span><span class="kw">.</span><span class="dt">call</span><span class="kw">.</span><span class="dt">args</span><span class="kw">]</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="dt">pathname</span> <span class="op">=</span> <span class="op">[</span><span class="st">&quot;fig/brown-noise.svg&quot;</span><span class="op">]</span></span></code></pre></div>
+class="sourceCode toml"><code class="sourceCode toml"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[</span><span class="dt">brei</span><span class="kw">.</span><span class="dt">template</span><span class="kw">.</span><span class="dt">copy-from-data</span><span class="kw">]</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="dt">description</span> <span class="op">=</span> <span class="st">&quot;copying `${pathname}`&quot;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="dt">requires</span> <span class="op">=</span> <span class="op">[</span><span class="st">&quot;data/${commit}/${pathname}&quot;</span><span class="op">]</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="dt">creates</span> <span class="op">=</span> <span class="op">[</span><span class="st">&quot;docs/site/${pathname}&quot;</span><span class="op">]</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="dt">script</span> <span class="op">=</span> <span class="st">&quot;cp data/${commit}/${pathname} docs/site/${pathname}&quot;</span></span></code></pre></div>
+</div>
+</section>
+<section id="make-some-noise" class="level2">
+<h2>Make some noise</h2>
+<p>Now, to test this, we write a script that writes to the folder of the
+current git commit.</p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode python task"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| description: Generate data</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| creates: data/${commit}/output.csv</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co">#| requires: #output-prep</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co">#| collect: data</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itertools <span class="im">import</span> islice, accumulate</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> white_noise():</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">yield</span> np.random.normal()</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">1000</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.fromiter(accumulate(white_noise()), dtype<span class="op">=</span><span class="bu">float</span>, count<span class="op">=</span>N)</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame({<span class="st">&quot;y&quot;</span>: y})</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>df.to_csv(<span class="st">&quot;data/$</span><span class="sc">{commit}</span><span class="st">/output.csv&quot;</span>)</span></code></pre></div>
+<p>In a next script we can read the generated data and produce a
+figure.</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode python task"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| description: plot brown noise</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| creates: data/${commit}/fig/brown-noise.svg</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co">#| requires: data/${commit}/output.csv</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co">#| collect: figures</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>outfile <span class="op">=</span> Path(<span class="st">&quot;data/$</span><span class="sc">{commit}</span><span class="st">/fig/brown-noise.svg&quot;</span>)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>outfile.parent.mkdir(parents<span class="op">=</span><span class="va">True</span>, exist_ok<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">&quot;data/$</span><span class="sc">{commit}</span><span class="st">/output.csv&quot;</span>, index_col<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>data.plot(ax<span class="op">=</span>ax)</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>fig.savefig(outfile)</span></code></pre></div>
+<p>We need to make sure that the figure is copied.</p>
+<div class="named-code-block">
+<div class="code-block-title">
+«brei»
+</div>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode toml"><code class="sourceCode toml"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[[</span><span class="dt">brei</span><span class="kw">.</span><span class="dt">call</span><span class="kw">]]</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="dt">template</span> <span class="op">=</span> <span class="st">&quot;copy-from-data&quot;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="dt">collect</span> <span class="op">=</span> <span class="st">&quot;data-products&quot;</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="kw">[</span><span class="dt">brei</span><span class="kw">.</span><span class="dt">call</span><span class="kw">.</span><span class="dt">args</span><span class="kw">]</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="dt">pathname</span> <span class="op">=</span> <span class="op">[</span><span class="st">&quot;fig/brown-noise.svg&quot;</span><span class="op">]</span></span></code></pre></div>
 </div>
 <p><img src="fig/brown-noise.svg" /></p>
+</section>
 </section>
 </div>
 
@@ -382,8 +419,13 @@ attributes</a></li>
 </ul></li>
 <li><a href="#simple-plotting" id="toc-simple-plotting">Simple
 Plotting</a></li>
-<li><a href="#full-workflow" id="toc-full-workflow">Full
-Workflow</a></li>
+<li><a href="#full-workflow" id="toc-full-workflow">Full Workflow</a>
+<ul>
+<li><a href="#commit-specific-output"
+id="toc-commit-specific-output">Commit specific output</a></li>
+<li><a href="#make-some-noise" id="toc-make-some-noise">Make some
+noise</a></li>
+</ul></li>
 </ul>
 </nav></div>
 </div>
